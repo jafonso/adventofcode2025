@@ -11,7 +11,9 @@ execute_process(
 
 message(STATUS "curlpp prefix: ${CURLPP_ROOT}")
 
-add_executable(datafetcher DataFetcherExample.cpp)
+add_executable(datafetcher DataFetcherExample.cpp
+        DataFetcher.cpp
+        DataFetcher.hpp)
 
 target_include_directories(datafetcher PRIVATE "${CURLPP_ROOT}/include")
 target_link_libraries(datafetcher PRIVATE curlpp curl)

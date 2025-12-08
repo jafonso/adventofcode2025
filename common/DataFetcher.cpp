@@ -1,33 +1,35 @@
+#include "DataFetcher.hpp"
+
 #include <sstream>
+#include <ranges>
 
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 
-using namespace curlpp::options;
+namespace advent::common {
 
-int main(int argc, const char ** argv) {
-
-    // Day of the challenge
-    if (argc != 2) {
-        std::cerr << "Requires argument: <day>" << std::endl;
-        exit(1);
-    }
-
-    int year = 2025;
-    int day = std::stoi(argv[1]);
-
+DataFetcher::DataFetcher(int day) {
     // Define the url
     std::ostringstream oss;
-    oss << "https://adventofcode.com/" << year << "/day/" << day << "/input";
+    oss << "https://adventofcode.com/" << YEAR << "/day/" << day << "/input";
     auto url = oss.str();
 
     auto session_c = std::getenv("AOC_SESSION_ID");
     if (session_c == nullptr) {
-        std::cerr << "Environment variable AOC_SESSION_ID not set." << std::endl;
+        throw std::runtime_error("Environment variable AOC_SESSION_ID not set");
     }
 
     std::string session_cookie = std::string("session=") + session_c;
+
+    std::string input_raw;
+
+    // Custom write callback
+    auto writeToString = [&input_raw](char * ptr, size_t size, size_t nmemb) -> size_t {
+        size_t total = size * nmemb;
+        input_raw.append(ptr, ptr + total);
+        return total;
+    };
 
     try
     {
@@ -38,14 +40,26 @@ int main(int argc, const char ** argv) {
         myRequest.setOpt<curlpp::options::Url>(url);
         myRequest.setOpt<curlpp::options::CookieSession>(true);
         myRequest.setOpt<curlpp::options::Cookie>(session_cookie);
+        myRequest.setOpt<curlpp::options::WriteFunction>(writeToString);
 
         // Send request and get a result.
         myRequest.perform();
+
+        // Parse the result
+        for (auto part : input_raw | std::views::split('\n')) {
+            m_data.emplace_back(std::string_view(part));
+        }
+
     } catch(curlpp::RuntimeError & e) {
         std::cout << e.what() << std::endl;
     } catch(curlpp::LogicError & e) {
         std::cout << e.what() << std::endl;
     }
 
-    return 0;
+}
+
+std::vector<std::string> DataFetcher::getData() const {
+    return m_data;
+}
+
 }
