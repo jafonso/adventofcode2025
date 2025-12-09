@@ -10,3 +10,4 @@ set(CMAKE_CXX_FLAGS "-fPIC -pedantic -Wall -Wextra -Werror -Wno-unused-parameter
 
 add_subdirectory(common)
 add_subdirectory(advent)
+add_subdirectory(tests)
