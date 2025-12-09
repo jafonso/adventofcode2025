@@ -1,15 +1,28 @@
-#include "DataFetcher.hpp"
-
 #include <sstream>
 #include <ranges>
+#include <filesystem>
+#include <fstream>
 
 #include <curlpp/cURLpp.hpp>
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 
+#include "DataFetcher.hpp"
+
 namespace advent::common {
 
 DataFetcher::DataFetcher(int day) {
+    // Check if file is cached
+    auto cachedfile = std::filesystem::temp_directory_path() / (std::string("advent-2025-") + std::to_string(day));
+    if (std::filesystem::exists(cachedfile) && std::filesystem::is_regular_file(cachedfile)) {
+        std::ifstream ifstream(cachedfile);
+        std::string line;
+        while (std::getline(ifstream, line)) {
+            m_data.push_back(line);
+        }
+        return;
+    }
+
     // Define the url
     std::ostringstream oss;
     oss << "https://adventofcode.com/" << YEAR << "/day/" << day << "/input";
@@ -54,6 +67,11 @@ DataFetcher::DataFetcher(int day) {
             m_data.emplace_back(std::string_view(part));
         }
 
+        // Remove last if empty
+        while (m_data[m_data.size() - 1].empty()) {
+            m_data.pop_back();
+        }
+
     } catch(curlpp::RuntimeError & e) {
         std::cout << e.what() << std::endl;
         throw DataFetchError();
@@ -62,6 +80,11 @@ DataFetcher::DataFetcher(int day) {
         throw DataFetchError();
     }
 
+    // Cache the data file
+    std::ofstream ofstream(cachedfile);
+    for (auto & line : m_data) {
+        ofstream << line << std::endl;
+    }
 }
 
 std::vector<std::string> DataFetcher::getData() const {
