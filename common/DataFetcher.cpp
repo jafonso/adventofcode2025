@@ -67,7 +67,7 @@ DataFetcher::DataFetcher(int day) {
             m_data.emplace_back(std::string_view(part));
         }
 
-        // Remove last if empty
+        // Trim last lines if empty
         while (m_data[m_data.size() - 1].empty()) {
             m_data.pop_back();
         }
