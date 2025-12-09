@@ -45,6 +45,10 @@ DataFetcher::DataFetcher(int day) {
         // Send request and get a result.
         myRequest.perform();
 
+        if (input_raw.contains("Please don't repeatedly request this endpoint before it unlocks")) {
+            throw DayNotReadyError();
+        }
+
         // Parse the result
         for (auto part : input_raw | std::views::split('\n')) {
             m_data.emplace_back(std::string_view(part));
@@ -52,8 +56,10 @@ DataFetcher::DataFetcher(int day) {
 
     } catch(curlpp::RuntimeError & e) {
         std::cout << e.what() << std::endl;
+        throw DataFetchError();
     } catch(curlpp::LogicError & e) {
         std::cout << e.what() << std::endl;
+        throw DataFetchError();
     }
 
 }

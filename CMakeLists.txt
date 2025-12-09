@@ -9,4 +9,4 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-fPIC -pedantic -Wall -Wextra -Werror -Wno-unused-parameter -fstack-protector-all")
 
 add_subdirectory(common)
-add_subdirectory(day1)
+add_subdirectory(advent)
