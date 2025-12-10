@@ -13,16 +13,21 @@ common::AocResultType Day1::run(std::vector<std::string> input) {
     for (auto & line : input) {
         const char lr = line[0];
         const int value = std::stoi(line.substr(1));
+        if (value == 0) continue;
         if (lr == 'L') {
             auto temp_position = currentposition - value;
-            result2 += (-temp_position / 100);
-            if (temp_position < 0 && currentposition > 0) {
-                result2++;
+            if (temp_position <= 0) {
+                if (currentposition != 0) {
+                    result2 += 1; // For crossing zero first, except if already there
+                }
+                result2 += (-temp_position / 100); // Other times it crossed zero
             }
             currentposition = ((temp_position % 100) + 100) % 100;
         } else {
             auto temp_position = currentposition + value;
-            result2 += (temp_position / 100);
+            if (temp_position >= 100) {
+                result2 += (temp_position / 100); // Other times it crossed zero
+            }
             currentposition = temp_position % 100;
         }
         if (currentposition == 0) {
