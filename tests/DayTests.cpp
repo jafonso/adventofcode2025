@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "../advent/Day1.hpp"
+#include "../common/Register.hpp"
+#include "../common/BaseDay.hpp"
 
 namespace advent::tests {
 
@@ -16,10 +17,10 @@ TEST(advent, day_1) {
         "R14",
         "L82",
     };
-    auto day1 = Day1();
-    auto result = day1.run(test_data);
-    ASSERT_EQ(result.first, 3);
-    ASSERT_EQ(result.second, 6);
+    const auto day1 = common::Register::getInstance().getDay(1);
+    auto [result1, result2] = day1->run(test_data);
+    ASSERT_EQ(result1, 3);
+    ASSERT_EQ(result2, 6);
 }
 
 }
