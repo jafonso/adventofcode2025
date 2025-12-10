@@ -17,11 +17,13 @@ find_package(GTest REQUIRED CONFIG)
 # Now define the test executable
 add_executable(advent_tests
         DayTests.cpp
+        ../advent/Day1.cpp
 )
 
 # Link against the imported gtest targets
 target_link_libraries(advent_tests
         PRIVATE
+        common_objs
         GTest::gtest
         GTest::gtest_main
 )
