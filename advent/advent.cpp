@@ -6,6 +6,8 @@
 #include "../common/DataFetcher.hpp"
 #include "../common/BaseDay.hpp"
 
+constexpr int MAX_DAYS_2025 = 12;
+
 int main(int argc, const char ** argv) {
 
     // Day of the challenge
@@ -16,7 +18,7 @@ int main(int argc, const char ** argv) {
 
     bool reached_last_day = false;
 
-    for (int day = 1; day <= 25; ++day) {
+    for (int day = 1; day <= MAX_DAYS_2025; ++day) {
         if (day_filter.has_value() && day_filter.value() != day) {
             // Skip in case we want to run a specific day
             continue;
