@@ -2,6 +2,8 @@
 #include "BaseDay.hpp"
 #include "DefaultDay.hpp"
 
+#include <sstream>
+
 namespace advent::common {
 
 Register & Register::getInstance() {
@@ -10,6 +12,11 @@ Register & Register::getInstance() {
 }
 
 void Register::registerDay(const int day, const DayFactory dayHandler) {
+    if (m_dayfactorymap.contains(day)) {
+        std::ostringstream oss;
+        oss << "Register::registerDay: Duplicate day " << day;
+        throw std::runtime_error(oss.str());
+    }
     m_dayfactorymap[day] = dayHandler;
 }
 

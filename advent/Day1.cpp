@@ -5,7 +5,7 @@ namespace advent {
 class Day1 : public common::BaseDay
 {
 public:
-    common::AocResultType run(std::vector<std::string> input) override {
+    common::AocResultType run(const std::vector<std::string> & input) override {
 
         // Part 1 & 2
 

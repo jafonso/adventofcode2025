@@ -7,7 +7,7 @@ namespace advent::common {
 
 class DefaultDay final : public BaseDay {
 public:
-    AocResultType run(std::vector<std::string> input) override;
+    AocResultType run(const std::vector<std::string> & input) override;
 };
 
 }

@@ -6,12 +6,12 @@
 
 namespace advent::common {
 
-using AocResultType = std::pair<std::optional<int>, std::optional<int>>;
+using AocResultType = std::pair<std::optional<uint64_t>, std::optional<uint64_t>>;
 
 class BaseDay {
 public:
     virtual ~BaseDay() = default;
-    virtual AocResultType run(std::vector<std::string> input) = 0;
+    virtual AocResultType run(const std::vector<std::string> & input) = 0;
 };
 
 }

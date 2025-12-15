@@ -18,6 +18,7 @@ find_package(GTest REQUIRED CONFIG)
 add_executable(advent_tests
         DayTests.cpp
         ../advent/Day1.cpp
+        ../advent/Day2.cpp
 )
 
 # Link against the imported gtest targets
