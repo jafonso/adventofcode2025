@@ -88,19 +88,35 @@ TEST(advent, day_5) {
 
 TEST(advent, day_6) {
     const std::vector<std::string> test_data = {
-        "",
-        "",
+        "123 328  51 64 ",
+        " 45 64  387 23 ",
+        "  6 98  215 314",
+        "*   +   *   +  ",
     };
     const auto day_f = common::Register::getInstance().getDayFactory(6);
     auto [result1, result2] = day_f(test_data)->run();
-    ASSERT_EQ(result1, std::nullopt);
-    ASSERT_EQ(result2, std::nullopt);
+    ASSERT_EQ(result1, 4277556);
+    ASSERT_EQ(result2, 3263827);
 }
 
 TEST(advent, day_7) {
     const std::vector<std::string> test_data = {
-        "",
-        "",
+        ".......S.......",
+        ".......|.......",
+        "......|^|......",
+        "......|.|......",
+        ".....|^|^|.....",
+        ".....|.|.|.....",
+        "....|^|^|^|....",
+        "....|.|.|.|....",
+        "...|^|^|||^|...",
+        "...|.|.|||.|...",
+        "..|^|^|||^|^|..",
+        "..|.|.|||.|.|..",
+        ".|^|||^||.||^|.",
+        ".|.|||.||.||.|.",
+        "|^|^|^|^|^|||^|",
+        "|.|.|.|.|.|||.|",
     };
     const auto day_f = common::Register::getInstance().getDayFactory(7);
     auto [result1, result2] = day_f(test_data)->run();
