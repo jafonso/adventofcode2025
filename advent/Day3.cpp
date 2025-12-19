@@ -2,8 +2,7 @@
 
 namespace advent {
 
-class Day3 : public common::BaseDay
-{
+class Day3 final : public common::BaseDay {
 public:
     using BaseDay::BaseDay;
     common::AocResultType run() override {

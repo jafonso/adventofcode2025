@@ -21,8 +21,7 @@ constexpr auto make_pow10_table(std::index_sequence<I...>) {
     return std::array<uint64_t, sizeof...(I)>{ pow10_v<I>... };
 }
 
-class Day2 : public common::BaseDay
-{
+class Day2 final : public common::BaseDay {
 public:
     using BaseDay::BaseDay;
     common::AocResultType run() override {

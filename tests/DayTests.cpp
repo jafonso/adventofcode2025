@@ -66,4 +66,24 @@ TEST(advent, day_4) {
     ASSERT_EQ(result2, 43);
 }
 
+TEST(advent, day_5) {
+    const std::vector<std::string> test_data = {
+        "3-5",
+        "10-14",
+        "16-20",
+        "12-18",
+        "",
+        "1",
+        "5",
+        "8",
+        "11",
+        "17",
+        "32",
+    };
+    const auto day5f = common::Register::getInstance().getDayFactory(5);
+    auto [result1, result2] = day5f(test_data)->run();
+    ASSERT_EQ(result1, 3);
+    ASSERT_EQ(result2, 14);
+}
+
 }
