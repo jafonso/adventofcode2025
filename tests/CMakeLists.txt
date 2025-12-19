@@ -22,6 +22,13 @@ add_executable(advent_tests
         ../advent/Day3.cpp
         ../advent/Day4.cpp
         ../advent/Day5.cpp
+        ../advent/Day6.cpp
+        ../advent/Day7.cpp
+        ../advent/Day8.cpp
+        ../advent/Day9.cpp
+        ../advent/Day10.cpp
+        ../advent/Day11.cpp
+        ../advent/Day12.cpp
 )
 
 # Link against the imported gtest targets
