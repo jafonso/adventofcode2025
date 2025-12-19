@@ -37,7 +37,7 @@ TEST(advent, day_2) {
 
     auto [result1, result2] = day2->run(test_data);
     ASSERT_EQ(result1, 1227775554);
-    //ASSERT_EQ(result2, 6);
+    ASSERT_EQ(result2, 4174379265);
 }
 
 }
