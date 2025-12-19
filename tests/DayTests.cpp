@@ -47,4 +47,23 @@ TEST(advent, day_3) {
     ASSERT_EQ(result2, 3121910778619);
 }
 
+TEST(advent, day_4) {
+    const std::vector<std::string> test_data = {
+        "..@@.@@@@.",
+        "@@@.@.@.@@",
+        "@@@@@.@.@@",
+        "@.@@@@..@.",
+        "@@.@@@@.@@",
+        ".@@@@@@@.@",
+        ".@.@.@.@@@",
+        "@.@@@.@@@@",
+        ".@@@@@@@@.",
+        "@.@.@@@.@.",
+    };
+    const auto day4 = common::Register::getInstance().getDay(4);
+    auto [result1, result2] = day4->run(test_data);
+    ASSERT_EQ(result1, 13);
+    ASSERT_EQ(result2, 43);
+}
+
 }
