@@ -4,6 +4,7 @@ add_executable(advent advent.cpp)
 
 target_sources(advent PRIVATE
         day1.cpp
-        day2.cpp)
+        day2.cpp
+        day3.cpp)
 
 target_link_libraries(advent PRIVATE common_objs)

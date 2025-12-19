@@ -28,16 +28,23 @@ TEST(advent, day_2) {
     const std::vector<std::string> test_data = {
         "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124"
     };
-
-    //auto data_fetcher = advent::common::DataFetcher(2);
     const auto day2 = common::Register::getInstance().getDay(2);
-
-    //auto data_fetcher = advent::common::DataFetcher(2);
-    //auto [result1, result2] = day2->run(data_fetcher.getData());
-
     auto [result1, result2] = day2->run(test_data);
     ASSERT_EQ(result1, 1227775554);
     ASSERT_EQ(result2, 4174379265);
+}
+
+TEST(advent, day_3) {
+    const std::vector<std::string> test_data = {
+        "987654321111111",
+        "811111111111119",
+        "234234234234278",
+        "818181911112111",
+    };
+    const auto day3 = common::Register::getInstance().getDay(3);
+    auto [result1, result2] = day3->run(test_data);
+    ASSERT_EQ(result1, 357);
+    ASSERT_EQ(result2, 3121910778619);
 }
 
 }
