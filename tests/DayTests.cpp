@@ -120,8 +120,8 @@ TEST(advent, day_7) {
     };
     const auto day_f = common::Register::getInstance().getDayFactory(7);
     auto [result1, result2] = day_f(test_data)->run();
-    ASSERT_EQ(result1, std::nullopt);
-    ASSERT_EQ(result2, std::nullopt);
+    ASSERT_EQ(result1, 21);
+    ASSERT_EQ(result2, 40);
 }
 
 TEST(advent, day_8) {
