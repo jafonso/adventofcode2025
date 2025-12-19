@@ -20,11 +20,11 @@ void Register::registerDay(const int day, const DayFactory dayHandler) {
     m_dayfactorymap[day] = dayHandler;
 }
 
-std::unique_ptr<BaseDay> Register::getDay(const int day) const {
+Register::DayFactory Register::getDayFactory(const int day) const {
     try {
-        return m_dayfactorymap.at(day)();
+        return m_dayfactorymap.at(day);
     } catch (std::out_of_range&) {
-        return std::make_unique<DefaultDay>();
+        return [](const std::vector<std::string> & input) -> std::unique_ptr<BaseDay> { return std::make_unique<DefaultDay>(input);};
     }
 }
 

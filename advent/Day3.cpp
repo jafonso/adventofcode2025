@@ -5,19 +5,20 @@ namespace advent {
 class Day3 : public common::BaseDay
 {
 public:
-    common::AocResultType run(const std::vector<std::string> & input) override {
+    using BaseDay::BaseDay;
+    common::AocResultType run() override {
 
         // Part 1
 
         uint64_t result_1 = 0;
-        for (auto & line : input) {
+        for (auto & line : m_input) {
             result_1 += largestJoltage(line, 2);
         }
 
         // Part 2
 
         uint64_t result_2 = 0;
-        for (auto & line : input) {
+        for (auto & line : m_input) {
             result_2 += largestJoltage(line, 12);
         }
 

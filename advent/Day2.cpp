@@ -24,11 +24,12 @@ constexpr auto make_pow10_table(std::index_sequence<I...>) {
 class Day2 : public common::BaseDay
 {
 public:
-    common::AocResultType run(const std::vector<std::string> & input) override {
+    using BaseDay::BaseDay;
+    common::AocResultType run() override {
 
         // Parsing input
 
-        std::string_view input_view = input[0];
+        std::string_view input_view = m_input[0];
         std::list<std::pair<std::string, std::string>> input_ranges_str_tmp;
         std::list<std::pair<uint64_t, uint64_t>> input_ranges;
 

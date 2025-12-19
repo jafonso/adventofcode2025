@@ -5,14 +5,15 @@ namespace advent {
 class Day1 : public common::BaseDay
 {
 public:
-    common::AocResultType run(const std::vector<std::string> & input) override {
+    using BaseDay::BaseDay;
+    common::AocResultType run() override {
 
         // Part 1 & 2
 
         int result1 = 0;
         int result2 = 0;
         int currentposition = 50;
-        for (auto & line : input) {
+        for (auto & line : m_input) {
             const char lr = line[0];
             const int value = std::stoi(line.substr(1));
             if (value == 0) continue;

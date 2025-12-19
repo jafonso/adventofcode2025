@@ -5,26 +5,27 @@ namespace advent {
 class Day4 : public common::BaseDay
 {
 public:
-    common::AocResultType run(const std::vector<std::string> & input) override {
+    using BaseDay::BaseDay;
+    common::AocResultType run() override {
 
         // Prepare
 
         std::vector<std::string> input_with_margin;
 
-        input_with_margin.emplace_back(std::string('.', input[0].size() + 2));
+        input_with_margin.emplace_back(std::string('.', m_input[0].size() + 2));
 
-        for (auto & line : input) {
+        for (auto & line : m_input) {
             input_with_margin.emplace_back("." + line + ".");
         }
 
-        input_with_margin.emplace_back(std::string('.', input[0].size() + 2));
+        input_with_margin.emplace_back(std::string('.', m_input[0].size() + 2));
 
         // Part 1
 
         int result_1 = 0;
 
-        for (std::size_t i = 1; i <= input.size(); ++i) {
-            for (std::size_t j = 1; j <= input.size(); ++j) {
+        for (std::size_t i = 1; i <= m_input.size(); ++i) {
+            for (std::size_t j = 1; j <= m_input.size(); ++j) {
                 if (isMovableRoll(input_with_margin, i, j)) {
                     ++result_1;
                 }
@@ -35,8 +36,8 @@ public:
 
         int result_2 = 0;
 
-        for (std::size_t i = 1; i <= input.size(); ++i) {
-            for (std::size_t j = 1; j <= input.size(); ++j) {
+        for (std::size_t i = 1; i <= m_input.size(); ++i) {
+            for (std::size_t j = 1; j <= m_input.size(); ++j) {
                 result_2 += tryRemoveRolls(input_with_margin, i, j);
             }
         }

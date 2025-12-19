@@ -32,8 +32,8 @@ int main(int argc, const char ** argv) {
 
             try {
                 auto data_fetcher = advent::common::DataFetcher(day);
-                auto day_runner = advent::common::Register::getInstance().getDay(day);
-                result = day_runner->run(data_fetcher.getData());
+                auto day_factory = advent::common::Register::getInstance().getDayFactory(day);
+                result = day_factory(data_fetcher.getData())->run();
             } catch (const advent::common::DayNotReadyError&) {
                 day_not_ready = true;
             }

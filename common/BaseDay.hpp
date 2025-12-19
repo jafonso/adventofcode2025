@@ -10,8 +10,10 @@ using AocResultType = std::pair<std::optional<uint64_t>, std::optional<uint64_t>
 
 class BaseDay {
 public:
+    explicit BaseDay(const std::vector<std::string> & input) : m_input(input) {}
     virtual ~BaseDay() = default;
-    virtual AocResultType run(const std::vector<std::string> & input) = 0;
+    virtual AocResultType run() = 0;
+    const std::vector<std::string> & m_input;
 };
 
 }
