@@ -15,7 +15,10 @@ public:
     AutoRegister() {
         Register::getInstance().registerDay(
             DAY,
-            [](const std::vector<std::string> & input) -> std::unique_ptr<BaseDay> { return std::make_unique<T>(input);});
+            [](const std::vector<std::string> & input, const std::optional<uint64_t> & optional_param) -> std::unique_ptr<BaseDay>
+            {
+                return std::make_unique<T>(input, optional_param);
+            });
     }
 };
 
