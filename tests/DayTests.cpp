@@ -155,13 +155,19 @@ TEST(advent, day_8) {
 
 TEST(advent, day_9) {
     const std::vector<std::string> test_data = {
-        "",
-        "",
+        "7,1",
+        "11,1",
+        "11,7",
+        "9,7",
+        "9,5",
+        "2,5",
+        "2,3",
+        "7,3",
     };
     const auto day_f = common::Register::getInstance().getDayFactory(9);
     auto [result1, result2] = day_f(test_data, std::nullopt)->run();
-    ASSERT_EQ(result1, std::nullopt);
-    ASSERT_EQ(result2, std::nullopt);
+    ASSERT_EQ(result1, 50);
+    ASSERT_EQ(result2, 24);
 }
 
 TEST(advent, day_10) {
