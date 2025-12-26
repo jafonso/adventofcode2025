@@ -183,14 +183,38 @@ TEST(advent, day_10) {
 }
 
 TEST(advent, day_11) {
-    const std::vector<std::string> test_data = {
-        "",
-        "",
+    const std::vector<std::string> test_data_1 = {
+        "aaa: you hhh",
+        "you: bbb ccc",
+        "bbb: ddd eee",
+        "ccc: ddd eee fff",
+        "ddd: ggg",
+        "eee: out",
+        "fff: out",
+        "ggg: out",
+        "hhh: ccc fff iii",
+        "iii: out",
+    };
+    const std::vector<std::string> test_data_2 = {
+        "svr: aaa bbb",
+        "aaa: fft",
+        "fft: ccc",
+        "bbb: tty",
+        "tty: ccc",
+        "ccc: ddd eee",
+        "ddd: hub",
+        "hub: fff",
+        "eee: dac",
+        "dac: fff",
+        "fff: ggg hhh",
+        "ggg: out",
+        "hhh: out",
     };
     const auto day_f = common::Register::getInstance().getDayFactory(11);
-    auto [result1, result2] = day_f(test_data, std::nullopt)->run();
-    ASSERT_EQ(result1, std::nullopt);
-    ASSERT_EQ(result2, std::nullopt);
+    const auto result1 = day_f(test_data_1, 1)->run().first;
+    const auto result2 = day_f(test_data_2, 2)->run().second;
+    ASSERT_EQ(result1, 5);
+    ASSERT_EQ(result2, 2);
 }
 
 TEST(advent, day_12) {
