@@ -219,13 +219,44 @@ TEST(advent, day_11) {
 
 TEST(advent, day_12) {
     const std::vector<std::string> test_data = {
+        "0:",
+        "###",
+        "##.",
+        "##.",
         "",
+        "1:",
+        "###",
+        "##.",
+        ".##",
         "",
+        "2:",
+        ".##",
+        "###",
+        "##.",
+        "",
+        "3:",
+        "##.",
+        "###",
+        "##.",
+        "",
+        "4:",
+        "###",
+        "#..",
+        "###",
+        "",
+        "5:",
+        "###",
+        ".#.",
+        "###",
+        "",
+        "4x4: 0 0 0 0 2 0",
+        "12x5: 1 0 1 0 2 2",
+        "12x5: 1 0 1 0 3 2",
     };
     const auto day_f = common::Register::getInstance().getDayFactory(12);
     auto [result1, result2] = day_f(test_data, std::nullopt)->run();
-    ASSERT_EQ(result1, std::nullopt);
-    ASSERT_EQ(result2, std::nullopt);
+    ASSERT_EQ(result1, 2);
+    //ASSERT_EQ(result2, std::nullopt);
 }
 
 }
