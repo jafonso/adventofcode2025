@@ -4,29 +4,47 @@
 #include <span>
 #include <array>
 #include <charconv>
-#include <set>
+#include <unordered_set>
 
 namespace advent {
 
-struct RegionT {
-    std::size_t width;
-    std::size_t length;
-};
-
 using PresentsT = std::array<std::size_t, 6>;
-using ShapeT = std::array<std::bitset<3>, 3>;
 
-struct ShapeTLess {
-    bool operator()(ShapeT const& a, ShapeT const& b) const noexcept {
-        for (int i = 0; i < 3; ++i) {
-            const auto av = a[i].to_ulong();
-            const auto bv = b[i].to_ulong();
-            if (av < bv) return true;
-            if (bv < av) return false;
-        }
-        return false;
+using ShapeT = std::array<std::bitset<3>, 3>;
+struct ShapeTHash {
+    std::size_t operator()(const ShapeT & a) const noexcept {
+        return std::hash<std::bitset<9>>()(a[0].to_ulong() | (a[1].to_ulong() << 3) | (a[2].to_ulong() << 6));
     }
 };
+
+struct RegionSizeT {
+    std::size_t width;  // x
+    std::size_t length; // y
+};
+
+/*struct RegionT {
+    static constexpr std::size_t MAX_WIDTH = 50;
+    RegionSizeT size;
+    std::vector<std::bitset<MAX_WIDTH>> region;
+    RegionT(const std::size_t width, const std::size_t length) : size(width, length), region(length) {
+        if (width > MAX_WIDTH) {
+            throw std::invalid_argument("width > MAX_WIDTH");
+        }
+    }
+    ShapeT get3x3At(const std::size_t x, const std::size_t y) const {
+        if (x <= 0 || x >= size.width - 1) {
+            throw std::invalid_argument("x out of limits [1, width-1)");
+        }
+        if (y <= 0 || y >= size.length - 1) {
+            throw std::invalid_argument("y out of limits [1, length-1)");
+        }
+        ShapeT output;
+        for (auto ix = x; ix < x + 3; ++ix) {
+            output[ix] = (region[ix].to_ullong() >> y) & 0b111;
+        }
+        return output;
+    }
+};*/
 
 class Day12 final : public common::BaseDay {
 public:
@@ -43,27 +61,37 @@ public:
             shapes_size.push_back(shapeSize(shape));
         }
 
-        /*std::size_t idx = 0;
-        for (auto & shape : shapes_rotated) {
-            auto size = shapes_size[idx];
-            std::cout << "# " << idx++ << " (" << size << ")" << std::endl;
-            for (auto & rotation : shape) {
-                for (auto & row : rotation) {
-                    std::cout << row << std::endl;
-                }
-                std::cout << std::endl;
+        // Try basic approach first, maybe it will work!
+
+        std::size_t successes = 0;
+        std::size_t failures = 0;
+        std::size_t unknown = 0;
+
+        for (auto & [region, presents_required] : regions) {
+            std::size_t region_size = region.length * region.width;
+            std::size_t region_occupied_max = 0;
+            std::size_t region_occupied_min = 0;
+            for (std::size_t idx = 0; idx < presents_required.size(); ++idx) {
+                region_occupied_max += 9 * presents_required[idx];
+                region_occupied_min += shapes_size[idx] * presents_required[idx];
+            }
+            if (region_occupied_min > region_size) {
+                failures++;
+            } else if (region_occupied_max <= region_size) {
+                successes++;
+            } else {
+                unknown++;
             }
         }
 
-        for (auto & [size, shape_count] : regions) {
-            std::cout << size.width << "x" << size.length << ")";
-            for (auto & count : shape_count) {
-                std::cout << " " << count;
-            }
-            std::cout << std::endl;
-        }*/
+        if (unknown > 0) {
+            std::cout << "Successes: " << successes << " Failures: " << failures << " Unknown: " << unknown << std::endl;
+            throw std::runtime_error("We actually need a more complex solution");
+        }
 
-        return std::pair(std::nullopt, std::nullopt);
+        // If not, we are lucky! This is not complicated at all.
+
+        return std::pair(successes, 0);
     }
 private:
     static std::size_t shapeSize(const ShapeT& shape) {
@@ -83,7 +111,7 @@ private:
         std::swap(shape[2][0], shape[2][2]);
         return shape;
     }
-    static ShapeT rotateShapeClockwise(ShapeT shape) {
+    static ShapeT rotateShapeClockwise(const ShapeT& shape) {
         ShapeT new_shape;
         new_shape[0][0] = shape[2][0];
         new_shape[0][1] = shape[1][0];
@@ -97,7 +125,7 @@ private:
         return new_shape;
     }
     static std::vector<ShapeT> allShapeRotations(ShapeT shape) {
-        std::set<ShapeT, ShapeTLess> seen_shapes;
+        std::unordered_set<ShapeT, ShapeTHash> seen_shapes;
         std::vector<ShapeT> output;
         // Just rotation
         for (std::size_t i = 0; i < 4; ++i) {
@@ -154,9 +182,9 @@ private:
         }
         return shape;
     }
-    static std::pair<RegionT, PresentsT> parseRegion(const std::string & input) {
+    static std::pair<RegionSizeT, PresentsT> parseRegion(const std::string & input) {
         std::string_view input_view = input;
-        RegionT region;
+        RegionSizeT region;
         {
             auto region_view = input_view.substr(0, input_view.find(':'));
             auto x_idx = region_view.find('x');
@@ -182,9 +210,9 @@ private:
         }
         return {region, presents};
     }
-    std::pair<std::vector<ShapeT>, std::vector<std::pair<RegionT, PresentsT>>> parseInput() const {
+    std::pair<std::vector<ShapeT>, std::vector<std::pair<RegionSizeT, PresentsT>>> parseInput() const {
         std::vector<ShapeT> present_shapes(6);
-        std::vector<std::pair<RegionT, PresentsT>> regions_presents;
+        std::vector<std::pair<RegionSizeT, PresentsT>> regions_presents;
         for (std::size_t i = 0; i < m_input.size(); ++i) {
             if (m_input[i].ends_with(':')) {
                 std::size_t shape_idx;
